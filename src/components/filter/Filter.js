@@ -1,4 +1,6 @@
-const Filter = ({ filter, handleChange }) => (
+import PropTypes from "prop-types";
+
+const Filter = ({ filter, changeFilter }) => (
   <label>
     Find contacts by name
     <input
@@ -8,9 +10,13 @@ const Filter = ({ filter, handleChange }) => (
       title="Имя может состоять только из букв, апострофа, тире и пробелов. Например Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan и т. п."
       required
       value={filter}
-      onChange={handleChange}
+      onChange={changeFilter}
     />
   </label>
 );
+
+Filter.propTypes = {
+  filter: PropTypes.string,
+};
 
 export { Filter };

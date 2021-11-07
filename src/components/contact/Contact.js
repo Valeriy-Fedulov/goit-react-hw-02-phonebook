@@ -1,13 +1,20 @@
-import { v4 as uuidv4 } from "uuid";
+import PropTypes from "prop-types";
 
-const Contact = ({ contacts }) => (
+const Contact = ({ contacts, deleteContact }) => (
   <>
     {contacts.map((contact) => (
-      <li key={uuidv4()}>
+      <li key={contact.id}>
         {contact.name}:{contact.number}
+        <button type="button" onClick={() => deleteContact(contact.id)}>
+          Delete
+        </button>
       </li>
     ))}
   </>
 );
+
+Contact.propTypes = {
+  contacts: PropTypes.arrayOf(PropTypes.shape).isRequired,
+};
 
 export { Contact };

@@ -1,4 +1,7 @@
 import React from "react";
+import { v4 as uuidv4 } from "uuid";
+import PropTypes from "prop-types";
+import s from "./ContactForm.module.css";
 
 class ContactForm extends React.Component {
   state = {
@@ -12,13 +15,19 @@ class ContactForm extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.contacts.push({
-      id: this.props.contacts.length,
-      name: this.state.name,
-      number: this.state.number,
-    });
-    this.props.onSubmit(this.props.contacts);
-    this.reset();
+
+    if (
+      this.props.contacts.find((contact) => contact.name === this.state.name)
+    ) {
+      alert(`${this.state.name} is already in contacts`);
+    } else {
+      this.props.onSubmit({
+        id: uuidv4(),
+        name: this.state.name,
+        number: this.state.number,
+      });
+      this.reset();
+    }
   };
 
   reset = () => {
@@ -28,10 +37,11 @@ class ContactForm extends React.Component {
   render() {
     const { name, number } = this.state;
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form className={s.form} onSubmit={this.handleSubmit}>
         <label>
           Name
           <input
+            className={s.input}
             type="text"
             name="name"
             pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
@@ -44,6 +54,7 @@ class ContactForm extends React.Component {
         <label>
           Number
           <input
+            className={s.input}
             type="tel"
             name="number"
             pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
@@ -53,10 +64,16 @@ class ContactForm extends React.Component {
             onChange={this.handleChange}
           />
         </label>
-        <button type="submit">Add contact</button>
+        <button className={s.button} type="submit">
+          Add contact
+        </button>
       </form>
     );
   }
 }
+
+ContactForm.propTypes = {
+  name: PropTypes.string,
+};
 
 export { ContactForm };
