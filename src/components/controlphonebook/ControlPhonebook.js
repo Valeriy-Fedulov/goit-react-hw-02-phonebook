@@ -1,3 +1,0 @@
-const ControlPhonebook = () => <></>;
-
-export { ControlPhonebook };
